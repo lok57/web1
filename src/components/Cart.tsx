@@ -1,5 +1,3 @@
-// src/components/Cart.tsx
-
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CartItem } from '../types'; // Ensure CartItem type is correctly imported
