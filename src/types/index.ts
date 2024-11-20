@@ -10,6 +10,7 @@ export interface Product {
   createdAt: string;
   updatedAt: string;
   sizes?: string[];
+  image: string;
 }
 
 export interface ProductMedia {
