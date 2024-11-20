@@ -25,7 +25,7 @@ export interface CartItem {
   category: string;
   quantity: number;
   size?: string;
-  image: string;
+  image: string;  // Assuming that each cart item has an image field
   inStock?: boolean;
   createdAt: string;
   updatedAt: string;
@@ -55,3 +55,4 @@ export interface UserProfile {
   createdAt: string;
   updatedAt: string;
 }
+
