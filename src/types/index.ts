@@ -31,6 +31,7 @@ export interface CartItem {
   createdAt: string;
   updatedAt: string;
   sizes?: string[];
+  image: string;
 }
 
 export interface ToastProps {
