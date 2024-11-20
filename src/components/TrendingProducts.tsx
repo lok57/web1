@@ -20,7 +20,14 @@ const TrendingProducts = memo(function TrendingProducts() {
       image: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&w=800&q=80",
       category: "Watches",
       description: "Exclusive limited edition timepiece",
-      inStock: true
+      inStock: true,
+      media: [
+        { url: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&w=800&q=80", type: "image" },
+        // You can add more media objects (e.g., images, videos, gifs)
+      ],
+      createdAt: new Date().toISOString(),  // Use ISO string format for Date
+      updatedAt: new Date().toISOString(),  // Use ISO string format for Date
+      sizes: ["S", "M", "L", "XL"],  // Optional: Add available sizes if applicable
     },
     {
       id: 'new-sunglasses-1',
@@ -29,7 +36,12 @@ const TrendingProducts = memo(function TrendingProducts() {
       image: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=800&q=80",
       category: "Accessories",
       description: "Premium designer sunglasses",
-      inStock: true
+      inStock: true,
+      media: [
+        { url: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=800&q=80", type: "image" },
+      ],
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
     },
     {
       id: 'new-bag-1',
@@ -38,7 +50,12 @@ const TrendingProducts = memo(function TrendingProducts() {
       image: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=800&q=80",
       category: "Accessories",
       description: "Handcrafted leather crossbody bag",
-      inStock: true
+      inStock: true,
+      media: [
+        { url: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=800&q=80", type: "image" },
+      ],
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
     },
     {
       id: 'new-sneakers-1',
@@ -47,7 +64,12 @@ const TrendingProducts = memo(function TrendingProducts() {
       image: "https://images.unsplash.com/photo-1552346154-21d32810aba3?auto=format&fit=crop&w=800&q=80",
       category: "Footwear",
       description: "Premium comfort sneakers",
-      inStock: true
+      inStock: true,
+      media: [
+        { url: "https://images.unsplash.com/photo-1552346154-21d32810aba3?auto=format&fit=crop&w=800&q=80", type: "image" },
+      ],
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
     }
   ].slice(0, 12);
 
