@@ -23,10 +23,10 @@ export interface CartItem {
     name: string;
     description: string;
     price: number;
+    image: string;
     category: string;
     quantity: number;
     size?: string;
-    image: string; // Correct and single definition
     inStock?: boolean;
     createdAt: string;
     updatedAt: string;
