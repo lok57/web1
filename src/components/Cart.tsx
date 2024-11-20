@@ -1,6 +1,8 @@
+// src/components/Cart.tsx
+
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { CartItem } from '../types';
+import { CartItem } from '../types'; // Ensure CartItem type is correctly imported
 import { formatPrice } from '../lib/utils';
 import { X } from 'lucide-react';
 
@@ -36,6 +38,7 @@ export default function Cart({
       <div className="fixed inset-y-0 right-0 flex max-w-full">
         <div className="w-screen max-w-md transform transition-transform duration-500 ease-in-out">
           <div className="flex h-full flex-col bg-white shadow-xl">
+            {/* Header */}
             <div className="flex items-center justify-between px-4 py-6">
               <h2 className="text-lg font-medium">Shopping Cart</h2>
               <button onClick={onClose} aria-label="Close Cart">
@@ -43,6 +46,7 @@ export default function Cart({
               </button>
             </div>
 
+            {/* Cart Items */}
             <div className="flex-1 overflow-y-auto px-4">
               {items.length === 0 ? (
                 <p className="text-center text-gray-500 mt-8">
@@ -56,7 +60,7 @@ export default function Cart({
                       className="flex items-center space-x-4 py-4 border-b"
                     >
                       <img
-                        src={item.image}
+                        src={item.image || '/default-image.jpg'} // Fallback if image is not available
                         alt={item.name}
                         className="h-20 w-20 object-cover rounded"
                       />
@@ -109,6 +113,7 @@ export default function Cart({
               )}
             </div>
 
+            {/* Footer */}
             <div className="border-t px-4 py-6">
               <div className="flex justify-between text-base font-medium">
                 <p>Total</p>
@@ -116,9 +121,7 @@ export default function Cart({
               </div>
               <Link
                 to="/checkout"
-                className={`mt-6 block w-full bg-black text-white py-3 px-4 rounded-md hover:bg-gray-800 transition-colors text-center ${
-                  items.length === 0 ? 'opacity-50 cursor-not-allowed' : ''
-                }`}
+                className="mt-6 block w-full bg-black text-white py-3 px-4 rounded-md hover:bg-gray-800 transition-colors text-center"
               >
                 Checkout
               </Link>
