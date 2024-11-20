@@ -12,16 +12,16 @@ interface MediaFile {
 interface ImageUploaderProps {
   currentMedia?: string[];
   onMediaChange: (urls: string[]) => void;
-  maxFiles?: number;
-  maxImageSize?: number; // Max size for image files (in bytes)
-  maxVideoSize?: number; // Max size for video files (in bytes)
+  maxFiles?: number; // Default to 10
+  maxImageSize?: number; // Default to 100MB for images
+  maxVideoSize?: number; // Default to 100MB for videos
 }
 
 export default function ImageUploader({ 
   currentMedia = [], 
   onMediaChange,
-  maxFiles = 5,
-  maxImageSize = 100 * 1024 * 1024, // Default to 50MB for images
+  maxFiles = 10,
+  maxImageSize = 100 * 1024 * 1024, // Default to 100MB for images
   maxVideoSize = 100 * 1024 * 1024 // Default to 100MB for videos
 }: ImageUploaderProps) {
   const [mediaFiles, setMediaFiles] = useState<MediaFile[]>([]);
