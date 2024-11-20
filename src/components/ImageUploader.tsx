@@ -13,12 +13,16 @@ interface ImageUploaderProps {
   currentMedia?: string[];
   onMediaChange: (urls: string[]) => void;
   maxFiles?: number;
+  maxImageSize?: number; // Max size for image files (in bytes)
+  maxVideoSize?: number; // Max size for video files (in bytes)
 }
 
 export default function ImageUploader({ 
   currentMedia = [], 
   onMediaChange,
-  maxFiles = 5
+  maxFiles = 5,
+  maxImageSize = 100 * 1024 * 1024, // Default to 50MB for images
+  maxVideoSize = 100 * 1024 * 1024 // Default to 100MB for videos
 }: ImageUploaderProps) {
   const [mediaFiles, setMediaFiles] = useState<MediaFile[]>([]);
   const [isUploading, setIsUploading] = useState(false);
@@ -39,9 +43,17 @@ export default function ImageUploader({
     try {
       const newMediaFiles = await Promise.all(
         files.map(async (file) => {
-          // Validate file type
+          // Validate file type and size
           if (!file.type.startsWith('image/') && !file.type.startsWith('video/')) {
             throw new Error('Invalid file type. Please upload images or videos only.');
+          }
+
+          if (file.type.startsWith('image/') && file.size > maxImageSize) {
+            throw new Error(`Image size exceeds the limit of ${maxImageSize / 1024 / 1024} MB.`);
+          }
+
+          if (file.type.startsWith('video/') && file.size > maxVideoSize) {
+            throw new Error(`Video size exceeds the limit of ${maxVideoSize / 1024 / 1024} MB.`);
           }
 
           // Create preview
@@ -57,7 +69,7 @@ export default function ImageUploader({
       );
 
       setMediaFiles(current => [...current, ...newMediaFiles]);
-      
+
       // Convert files to base64 and update parent
       const mediaUrls = newMediaFiles.map(media => media.preview);
       onMediaChange([...currentMedia, ...mediaUrls]);
@@ -76,15 +88,15 @@ export default function ImageUploader({
   const createFilePreview = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
-      
+
       reader.onload = () => {
         resolve(reader.result as string);
       };
-      
+
       reader.onerror = () => {
         reject(new Error('Failed to read file'));
       };
-      
+
       reader.readAsDataURL(file);
     });
   };
@@ -101,7 +113,7 @@ export default function ImageUploader({
     const reorderedFiles = [...mediaFiles];
     const [movedItem] = reorderedFiles.splice(fromIndex, 1);
     reorderedFiles.splice(toIndex, 0, movedItem);
-    
+
     setMediaFiles(reorderedFiles);
     onMediaChange(reorderedFiles.map(media => media.preview));
   };
