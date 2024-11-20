@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Plus, Search } from 'lucide-react';
+import { Plus, Search, X } from 'lucide-react';
 import { Product } from '../types';
 import ProductCard from './ProductCard';
 import Toast from './Toast';
@@ -12,11 +12,11 @@ interface ProductManagerProps {
   onDeleteProduct: (productId: number) => void;
 }
 
-export default function ProductManager({ 
-  products, 
-  onAddProduct, 
-  onUpdateProduct, 
-  onDeleteProduct 
+export default function ProductManager({
+  products,
+  onAddProduct,
+  onUpdateProduct,
+  onDeleteProduct
 }: ProductManagerProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -26,10 +26,12 @@ export default function ProductManager({
 
   const categories = ['All', 'Men', 'Women', 'Kids', 'Watches'];
 
-  const filteredProducts = products.filter(product => {
-    const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         product.description.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = selectedCategory === 'All' || product.category === selectedCategory;
+  const filteredProducts = products.filter((product) => {
+    const matchesSearch =
+      product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      product.description.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory =
+      selectedCategory === 'All' || product.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
 
@@ -76,15 +78,17 @@ export default function ProductManager({
           onChange={(e) => setSelectedCategory(e.target.value)}
           className="px-4 py-2 border rounded-md focus:ring-2 focus:ring-black focus:border-transparent"
         >
-          {categories.map(category => (
-            <option key={category} value={category}>{category}</option>
+          {categories.map((category) => (
+            <option key={category} value={category}>
+              {category}
+            </option>
           ))}
         </select>
       </div>
 
       {/* Product Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {filteredProducts.map(product => (
+        {filteredProducts.map((product) => (
           <ProductCard
             key={product.id}
             product={product}
@@ -115,19 +119,12 @@ export default function ProductManager({
                 <X className="h-5 w-5" />
               </button>
             </div>
-            <ProductForm
-              onSubmit={handleAddProduct}
-              onCancel={() => setShowAddForm(false)}
-            />
+            <ProductForm onSubmit={handleAddProduct} onCancel={() => setShowAddForm(false)} />
           </div>
         </div>
       )}
 
-      <Toast
-        show={showToast}
-        message={toastMessage}
-        onClose={() => setShowToast(false)}
-      />
+      <Toast show={showToast} message={toastMessage} onClose={() => setShowToast(false)} />
     </div>
   );
 }
@@ -163,9 +160,7 @@ function ProductForm({ product, onSubmit, onCancel }: ProductFormProps) {
       />
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          Product Name
-        </label>
+        <label className="block text-sm font-medium text-gray-700 mb-1">Product Name</label>
         <input
           type="text"
           required
@@ -176,9 +171,7 @@ function ProductForm({ product, onSubmit, onCancel }: ProductFormProps) {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          Price
-        </label>
+        <label className="block text-sm font-medium text-gray-700 mb-1">Price</label>
         <div className="relative">
           <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">$</span>
           <input
@@ -194,9 +187,7 @@ function ProductForm({ product, onSubmit, onCancel }: ProductFormProps) {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          Category
-        </label>
+        <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
         <select
           required
           value={formData.category}
@@ -212,9 +203,7 @@ function ProductForm({ product, onSubmit, onCancel }: ProductFormProps) {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          Description
-        </label>
+        <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
         <textarea
           required
           value={formData.description}
