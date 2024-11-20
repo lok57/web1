@@ -26,14 +26,6 @@ export default function Cart({
 
   if (!isOpen) return null;
 
-  // Helper function to get the main image URL
-  const getItemImage = (item: CartItem): string => {
-    if (item.media && item.media.length > 0) {
-      return item.media[0].url;
-    }
-    return item.image || '/placeholder.jpg';
-  };
-
   return (
     <div className="fixed inset-0 z-50 overflow-hidden">
       <div
@@ -64,7 +56,7 @@ export default function Cart({
                       className="flex items-center space-x-4 py-4 border-b"
                     >
                       <img
-                        src={getItemImage(item)}
+                        src={item.image}
                         alt={item.name}
                         className="h-20 w-20 object-cover rounded"
                       />
