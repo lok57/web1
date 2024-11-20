@@ -20,8 +20,8 @@ export interface ProductMedia {
 export interface CartItem extends Omit<Product, 'media'> {
   quantity: number;
   size?: string;
-  media?: ProductMedia[]; // Make media optional for cart items
-  image?: string; // Keep image for backward compatibility
+  image: string; // Make image mandatory
+  media?: ProductMedia[]; // Keep media optional for backward compatibility
 }
 
 export interface ToastProps {
