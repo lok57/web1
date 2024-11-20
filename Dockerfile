@@ -1,18 +1,17 @@
-FROM node:20-alpine as builder
+# ----------- Frontend Build Stage -----------
+FROM node:20-alpine as frontend-builder
 
 # Set working directory
 WORKDIR /app
 
-# Copy package files
-COPY package*.json ./
+# Copy package files and install dependencies
+COPY frontend/package*.json ./frontend/
+RUN npm ci --prefix frontend
 
-# Install dependencies
-RUN npm ci
+# Copy the rest of the frontend source code
+COPY frontend/ ./frontend/
 
-# Copy source code
-COPY . .
-
-# Set environment variables
+# Set environment variables (for Firebase or other settings)
 ARG VITE_FIREBASE_API_KEY
 ARG VITE_FIREBASE_AUTH_DOMAIN
 ARG VITE_FIREBASE_PROJECT_ID
@@ -29,20 +28,41 @@ ENV VITE_FIREBASE_MESSAGING_SENDER_ID=$VITE_FIREBASE_MESSAGING_SENDER_ID
 ENV VITE_FIREBASE_APP_ID=$VITE_FIREBASE_APP_ID
 ENV VITE_FIREBASE_MEASUREMENT_ID=$VITE_FIREBASE_MEASUREMENT_ID
 
-# Build the application
-RUN npm run build
+# Build the frontend application
+RUN npm run build --prefix frontend
 
-# Production stage
+# ----------- Backend Build Stage -----------
+FROM node:20-alpine as backend-builder
+
+# Set working directory for backend
+WORKDIR /app
+
+# Copy backend package files and install dependencies
+COPY backend/package*.json ./backend/
+RUN npm ci --prefix backend
+
+# Copy the rest of the backend source code
+COPY backend/ ./backend/
+
+# Expose backend port
+EXPOSE 5000
+
+# ----------- Final Production Stage (Frontend + Backend) -----------
+
 FROM nginx:alpine
 
-# Copy built assets from builder stage
-COPY --from=builder /app/dist /usr/share/nginx/html
+# Copy built frontend assets from the frontend builder stage
+COPY --from=frontend-builder /app/frontend/dist /usr/share/nginx/html
 
-# Copy nginx configuration
+# Copy the Nginx configuration
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Expose port 80
-EXPOSE 80
+# Copy the backend app and install dependencies
+COPY --from=backend-builder /app/backend /app/backend
 
-# Start nginx
-CMD ["nginx", "-g", "daemon off;"]
+# Set working directory for backend and run it
+WORKDIR /app/backend
+RUN npm install
+
+# Start the backend server (e.g., Express)
+CMD ["npm", "start", "--prefix", "backend"]
